@@ -1,12 +1,37 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from "react";
+import { Sidebar } from "@/components/Sidebar";
+import { Dashboard } from "@/components/Dashboard";
+import { MenuBuilder } from "@/components/MenuBuilder";
+import { MenuScheduler } from "@/components/MenuScheduler";
+import { MenuPreview } from "@/components/MenuPreview";
 
 const Index = () => {
+  const [activeView, setActiveView] = useState("dashboard");
+
+  const renderContent = () => {
+    switch (activeView) {
+      case "menus":
+      case "create":
+        return <MenuBuilder />;
+      case "schedule":
+        return <MenuScheduler />;
+      case "preview":
+        return <MenuPreview />;
+      case "analytics":
+        return <Dashboard />;
+      case "settings":
+        return <Dashboard />;
+      default:
+        return <Dashboard />;
+    }
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen bg-background flex">
+      <Sidebar activeView={activeView} onViewChange={setActiveView} />
+      <main className="flex-1 overflow-auto">
+        {renderContent()}
+      </main>
     </div>
   );
 };
